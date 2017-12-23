@@ -1,0 +1,59 @@
+{{!-- LOGO GOES HERE --}}
+<h1>Welcome to BetterBurger!</h1>
+{{!-- STILL NOT LOADING!!! --}}
+<img src="/assets/img/bburgerlogo.png">
+
+
+
+<div id="burger-display">
+  {{!-- THIS SECTION DISPLAYS USER ENTRIES --}}
+  <div id="not-eaten">
+    <h2>Order Up!</h2>
+    <ul>
+      {{!-- THIS SENDS THE BURGERS TO THE DEVOURED LIST --}}
+      {{#each burgers}}
+      {{#unless this.devoured}}
+      <li>
+        {{this.burger_name}}
+        {{!-- THIS FORM DISPLAYS THE DATA --}}
+        <form action="/api/burgers/{{this.id}}?_method=PUT" method="POST">
+          <input type="hidden" name="devoured" value="true">
+          <button type="submit">Eat It!</button>
+        </form>
+      </li>
+      {{/unless}}
+      {{/each}}
+    </ul>
+  </div>
+  {{!--   THIS SECTION DISPLAYS THE DEVOURED BURGERS --}}
+  <div id="eaten">
+    <h2>Another Satisfied Customer</h2>
+    <ul>
+      {{!--  THIS SENDS THE BURGERS BACK TO THE FIRST MENU --}}
+      {{#each burgers}}
+      {{#if this.devoured}}
+      <li>
+        {{this.burger_name}}
+        <form action="/api/burgers/{{this.id}}?_method=PUT" method="POST">
+          <input type="hidden" name="devoured" value="false">
+          <button type="submit">Order Another!</button>
+        </form>
+      </li>
+      {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+</div>
+{{!-- THIS SECTION IS WHERE THE USER ENTERS THEIR DREAM BURGERS --}}
+<div id="add-burger">
+  <div id="input">
+    <h2>Create burger:</h2>
+    <form class="create-update-form" action="/api/burgers" method="POST">
+      <div class="form-group">
+        <label for="ca">Burger Name:</label>
+        <input type="text" id="ca" name="burger_name">
+      </div>
+      <button id="add-burger-button" type="submit">Create Burger</button>
+    </form>
+  </div>
+</div>
